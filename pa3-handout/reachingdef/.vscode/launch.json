@@ -11,7 +11,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": [".\\tests\\p2.txt", "poop1"]
+            "args": [".\\tests\\p3.txt", "poop1"]
         }
     ]
 }
