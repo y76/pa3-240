@@ -1,0 +1,8 @@
+fvin 1 1
+fvin 2 2 4
+fvin 3 1
+fvin 4 3
+fvin 5 2
+fvin 6
+fvin 7
+fvin 8 3 4

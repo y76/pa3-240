@@ -35,7 +35,7 @@ class FaintVarAnalysis:
         command = len(split)
 
         if command == 1:
-            self.basicBlocks[(int(split[0]))] = [None]
+            self.basicBlocks[(int(split[0]))] = []
         if command == 2:
             self.basicBlocks[(int(split[0]))] = [(int(split[1]))]
         if command >= 3:
@@ -57,11 +57,13 @@ def doAnalysis(analysis: FaintVarAnalysis):
     Out = {}
     In = {}
     VAR = list(range(1, analysis.numVariables+1))
+
     for b in range(1, analysis.numBlocks+1):
         Out[b] = VAR
         In[b] = VAR
-
+    
     changed = True
+    ctr = 0
     
     while (changed):
         changed = False
@@ -101,10 +103,18 @@ def doAnalysis(analysis: FaintVarAnalysis):
                         operands.append(x)
                 depKill = list(set(operands).intersection(set(VAR)))
             
+
             kill = list(set(constKill).union(set(depKill)))
             
-            In[b] = list((set(Out[b]).difference(kill)).union(set(gen)))
+            # if (None in list((set(Out[b]).difference(kill)))):
+            #     print("None is in Out[b] - kill: ")
+            #     print("Current Iteration: " + str(ctr) + "   Current Block: " + str(curBlock))
+            #     print("Out[b]" + str(Out[b]))
+            #     print("kill: " + str(kill))
+            #     print()
 
+            In[b] = list((set(Out[b]).difference(kill)).union(set(gen)))
+            # In[b] = list(set(Out[b]).union(set(gen)))
             
 
             # Out equation
@@ -124,6 +134,7 @@ def doAnalysis(analysis: FaintVarAnalysis):
             
             if In[b] != tempIn:
                 changed = True
+                ctr += 1
             
     return [In, Out]
 
@@ -150,7 +161,16 @@ def readFile() -> FaintVarAnalysis:
     f.close()
     return input
 
-
+def writeToFile(filename, In: dict):
+    f = open(filename, "w")
+    # for pair in pointsTo:
+    #     f.write('pt ' + str(pair[0]) + ' ' +  str(pair[1]) + '\n')
+    for key in In.keys():
+        f.write('fvin ' + str(key))
+        for i in In[key]:
+            f.write(' ' + str(i))
+        f.write('\n')
+    f.close()
 
 def main():
     if (len(sys.argv) != 3):
@@ -158,10 +178,12 @@ def main():
         exit(0)
     
     input = readFile()
+    outputfile = sys.argv[2]
     # print(input.basicBlocks)
     [In, Out] = doAnalysis(input)
     print(In)
-    print(Out)
+    writeToFile(outputfile, In)
+    # print(Out)
     
     return 0
 

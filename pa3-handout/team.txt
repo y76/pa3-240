@@ -1,1 +1,3 @@
-Name, email
+Pavel S Frolikov frolikov@ucdavis.edu
+Joshua Pike japike@ucdavis.edu
+Malik Smith meusmith@ucdavis.edu

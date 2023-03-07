@@ -1,5 +1,4 @@
-rdout 1 1
-rdout 2 1 3 4
-rdout 3 1 3 4
-rdout 4 3 4
-rdout 5 1 3 4
+rdout 1
+rdout 2
+rdout 3
+rdout 4
